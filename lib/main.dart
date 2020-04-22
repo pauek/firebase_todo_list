@@ -103,6 +103,7 @@ class TodoList extends StatelessWidget {
       itemBuilder: (context, int index) {
         return ListTile(
           onTap: () => _toggleDone(todos[index]),
+          onLongPress: () => deleteTodo(todos[index]),
           title: Text(todos[index].what),
           leading: Checkbox(
             value: todos[index].done,
