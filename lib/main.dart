@@ -20,7 +20,14 @@ class FirebaseApp extends StatelessWidget {
 // DocumentSnapshot: "Foto" d'un document en un cert instant de temps.
 // QuerySnapshot: "Foto" d'un consulta a una col·lecció.
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  TextEditingController _controller = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +42,7 @@ class HomePage extends StatelessWidget {
             case ConnectionState.waiting:
               return Center(child: CircularProgressIndicator());
             case ConnectionState.active:
-              return TodoList(todos: snapshot.data);
+              return _buildBody(snapshot.data);
             case ConnectionState.done:
               return Center(child: Text("done??"));
             case ConnectionState.none:
@@ -44,6 +51,36 @@ class HomePage extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+  Widget _buildBody(List<Todo> todos) {
+    return Column(
+      children: <Widget>[
+        Expanded(child: TodoList(todos: todos)),
+        Material(
+          elevation: 20,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    addTodo(_controller.text);
+                    _controller.clear();
+                  }
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }

@@ -20,3 +20,16 @@ Stream<List<Todo>> todoListSnapshots() {
     return docs.map((doc) => Todo.fromFirestore(doc)).toList();
   });
 }
+
+addTodo(String text) {
+  /*
+  Firestore.instance.collection('todos').document().setData({
+    'what': text,
+    'done': false,
+  });
+  */
+  Firestore.instance.collection('todos').add({
+    'what': text,
+    'done': false,
+  });
+}
