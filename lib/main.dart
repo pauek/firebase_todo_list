@@ -17,56 +17,6 @@ class FirebaseApp extends StatelessWidget {
   }
 }
 
-// Future
-// FutureBuilder (widget de Flutter)
-Future<String> delayed(String message) async {
-  await Future.delayed(Duration(seconds: 3));
-  return message;
-}
-
-// Stream
-// StreamBuilder (widget de Flutter)
-Stream<int> countdown(int from) async* {
-  await Future.delayed(Duration(seconds: 3));
-  for (int i = from; i >= 0; i--) {
-    yield i;
-    await Future.delayed(Duration(seconds: 1));
-  }
-}
-
-class TestPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: StreamBuilder<int>(
-        stream: countdown(3),
-        builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text('ERROR: ${snapshot.error.toString()}'));
-          }
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              // Estem esperant el primer valor
-              return Center(child: Text("Waiting..."));
-            case ConnectionState.active:
-              return Center(
-                child: Text(
-                  "${snapshot.data}",
-                  style: TextStyle(fontSize: 40),
-                ),
-              );
-            case ConnectionState.done:
-              return Center(child: Text("Done!"));
-            case ConnectionState.none:
-            default:
-              return Placeholder();
-          }
-        },
-      ),
-    );
-  }
-}
-
 // DocumentSnapshot: "Foto" d'un document en un cert instant de temps.
 // QuerySnapshot: "Foto" d'un consulta a una col·lecció.
 
